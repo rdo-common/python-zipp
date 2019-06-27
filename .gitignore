@@ -1,0 +1,4 @@
+/zipp-*.tar.gz
+/zipp-*/
+/results_zipp/
+*.rpm
