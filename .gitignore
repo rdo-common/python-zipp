@@ -1,4 +1,4 @@
 /zipp-*.tar.gz
 /zipp-*/
-/results_zipp/
+/results_python-zipp/
 *.rpm
