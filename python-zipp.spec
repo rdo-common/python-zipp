@@ -2,7 +2,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.5.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Backport of pathlib-compatible object wrapper for zip files
 
 License:        MIT
@@ -46,5 +46,8 @@ A pathlib-compatible Zipfile object wrapper. A backport of the Path object.
 %{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Jun 26 2019 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-1
 - Initial package
