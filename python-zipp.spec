@@ -1,18 +1,22 @@
 %global pypi_name zipp
 
+%bcond_with tests
+
 Name:           python-%{pypi_name}
-Version:        0.5.1
-Release:        3%{?dist}
+Version:        3.4.0
+Release:        1%{?dist}
 Summary:        Backport of pathlib-compatible object wrapper for zip files
 
 License:        MIT
 URL:            https://github.com/jaraco/zipp
 Source0:        %{pypi_source}
+Patch1:         0001-Set-use_scm_version-to-True-in-setup.py.patch
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-setuptools_scm >= 1.15.0
+BuildRequires:  python3-toml
 
 %description
 A pathlib-compatible Zipfile object wrapper. A backport of the Path object.
@@ -30,13 +34,22 @@ A pathlib-compatible Zipfile object wrapper. A backport of the Path object.
 %autosetup -n %{pypi_name}-%{version}
 
 %build
+# the metapackage setuptools_scm[toml] is not yet packaged in CentOS
+# as it has been added since python-setuptools_scm-4.1.2-2 [1], and
+# PowerTools repo provides python3-setuptools_scm-1.15.7-4.
+# We need to add manually python3-toml as BR.
+# [1] https://src.fedoraproject.org/rpms/python-setuptools_scm/c/1dcc5fa198e99e3a2e4f4d64b1e0a583829edf55?branch=master
+sed -i 's/setuptools_scm\[toml\].*/setuptools_scm/' setup.cfg
 %py3_build
 
 %install
 %py3_install
 
+
+%if %{with tests}
 %check
 %{__python3} setup.py test
+%endif # with tests
 
 %files -n python3-%{pypi_name}
 %license LICENSE
@@ -46,6 +59,9 @@ A pathlib-compatible Zipfile object wrapper. A backport of the Path object.
 %{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info/
 
 %changelog
+* Fri Oct 30 2020 Joel Capitao <jcapitao@redhat.com> - 3.4.0-1
+- Update to 3.4.0
+
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 0.5.1-3
 - Rebuilt for Python 3.8
 
